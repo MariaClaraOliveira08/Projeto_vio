@@ -14,7 +14,8 @@ function App() {
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/users" element={
             <ProtectedRoute>
-              <ListUsers/>  {/*children*/}
+              {/*children*/}
+              <ListUsers/>  
             </ProtectedRoute>
           } />
         </Routes>
