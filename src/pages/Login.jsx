@@ -53,12 +53,12 @@ function Login() {
         <Avatar
           sx={{
             margin: 1,
-            backgroundColor: "green",
+            backgroundColor: "#c22d86"
           }}
         >
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" >
           Vio
         </Typography>
         <Box
@@ -97,7 +97,7 @@ function Login() {
             sx={{
               mt: 3,
               mb: 2,
-              backgroundColor: "green",
+              backgroundColor: "#c22d86",
             }}
           >
             Entrar
@@ -108,7 +108,7 @@ function Login() {
             sx={{
               mt: 3,
               mb: 2,
-              backgroundColor: "green",
+              backgroundColor: "#c22d86",
             }}>
             <Link to="/cadastro">Cadastro</Link>
           </Button>
