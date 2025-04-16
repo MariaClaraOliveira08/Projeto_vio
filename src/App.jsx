@@ -19,6 +19,7 @@ function App() {
             </ProtectedRoute>
           } />
         </Routes>
+        <Route path="/evento" element={<ListEvento/>}/>
       </BrowserRouter>
     </div>
   );
