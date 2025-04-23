@@ -133,6 +133,14 @@ function listUsers() {
           sx={{ backgroundColor:"#c4006f"}}>
             SAIR
           </Button>
+          
+          <Button fullWidth variant="contained"
+          onClick={"/eventos"}
+          sx={{ backgroundColor:"#c4006f"}}>
+            <Link to="/eventos">Evento</Link>
+          </Button>
+          
+
         </div>
       )}
     </div>

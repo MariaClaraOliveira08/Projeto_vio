@@ -9,64 +9,77 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
-import api from "../axios/axios"; // API corrigida
-import { Button, IconButton, Alert, Snackbar } from "@mui/material";
+import api from "../axios/axios";
+import { Button, IconButton, Alert, Snackbar} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useNavigate } from "react-router-dom";
 
-function listEvento() {
-  const [evento, setEvento] = useState([]);
+function ListEvento() {
+  const [events, setEvento] = useState([]);
 
   const [alert, setAlert] = useState({
+    //visibilidade (false = oculto; true = visível)
     open: false,
+    //nível do alerta (success, warning, etc)
     severity: "",
+    //mensagem que será exibida
     message: ""
   });
 
-  // Função para exibir o alerta
+  //função para exibir o alerta
   const showAlert = (severity, message) => {
     setAlert({ open: true, severity, message });
   };
 
-  // Fechar o alerta
+  //fechar o alerta
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false });
   };
 
   const navigate = useNavigate();
 
-  // Função para buscar eventos
   async function getEvento() {
-    try {
-      const response = await api.get('/events');
-      console.log(response.data.events);
-      setEvento(response.data.events);
-    } catch (error) {
-      console.log("Erro ", error);
-    }
+    // Chamada da Api
+    await api.getEvento().then(
+      (response) => {
+        console.log(response.data.events);
+        setEvento(response.data.events);
+      },
+      (error) => {
+        console.log("Erro ", error);
+      }
+    );
   }
 
-  // Função para excluir evento
   async function deleteEvento(id) {
     try {
-      await api.delete(`/events/${id}`);
-      await getEvento(); // Atualiza a lista após exclusão
-      showAlert("success", "Evento excluído com sucesso!");
+      await api.deleteEvento(id);
+      await getEvento();
+      //mensagem informativa
+      showAlert("success", "Evento excluído com sucesso!!");
     } catch (error) {
-      console.log("Erro ao deletar evento...", error);
-      showAlert("error", error.response?.data?.error || "Erro ao excluir evento");
+      console.log("Erro ao deletar evento: ", error);
     }
   }
 
-  // Mapeamento dos eventos para exibição na tabela
-  const listEventos = evento.map((evento) => {
+  function logout() {
+    localStorage.removeItem("authenticated");
+    navigate("/");
+  }
+
+  useEffect(() => {
+    getEvento();
+  }, []);
+
+  const ListEvento = events.map((evento) => {
     return (
       <TableRow key={evento.id_evento}>
         <TableCell align="center">{evento.nome}</TableCell>
         <TableCell align="center">{evento.descricao}</TableCell>
         <TableCell align="center">{evento.data_hora}</TableCell>
         <TableCell align="center">{evento.local}</TableCell>
+        
         <TableCell align="center">
           <IconButton onClick={() => deleteEvento(evento.id_evento)}>
             <DeleteIcon color="error" />
@@ -75,17 +88,6 @@ function listEvento() {
       </TableRow>
     );
   });
-
-  // Função para logout (remover item de autenticação)
-  function logout() {
-    localStorage.removeItem("authenticated");
-    navigate("/"); // Redireciona para a página inicial
-  }
-
-  // Chama a função getEvento quando o componente for montado
-  useEffect(() => {
-    getEvento();
-  }, []);
 
   return (
     <div>
@@ -100,7 +102,7 @@ function listEvento() {
         </Alert>
       </Snackbar>
 
-      {evento.length === 0 ? (
+      {events.length === 0 ? (
         <h1>Carregando eventos...</h1>
       ) : (
         <div>
@@ -116,7 +118,7 @@ function listEvento() {
                   <TableCell align="center">Ações</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>{listEvento}</TableBody>
+              <TableBody>{ListEvento}</TableBody>
             </Table>
           </TableContainer>
           <Button
@@ -133,4 +135,4 @@ function listEvento() {
   );
 }
 
-export default listEvento;
+export default ListEvento;
