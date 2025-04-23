@@ -134,13 +134,8 @@ function listUsers() {
             SAIR
           </Button>
           
-          <Button fullWidth variant="contained"
-          onClick={"/eventos"}
-          sx={{ backgroundColor:"#c4006f"}}>
             <Link to="/eventos">Evento</Link>
-          </Button>
           
-
         </div>
       )}
     </div>
