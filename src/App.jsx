@@ -23,15 +23,7 @@ function App() {
             }
           />
 
-          <Route
-            path="/eventos"
-            element={
-              <ProtectedRoute>
-                {/*children*/}
-                <ListEvento />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/evento" element={<ListEvento />} />
         </Routes>
       </BrowserRouter>
     </div>
