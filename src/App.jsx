@@ -23,7 +23,7 @@ function App() {
             }
           />
 
-          <Route path="/evento" element={<ListEvento />} />
+          <Route path="/eventos" element={<ListEvento />} />
         </Routes>
       </BrowserRouter>
     </div>

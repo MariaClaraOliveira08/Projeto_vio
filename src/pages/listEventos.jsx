@@ -139,7 +139,7 @@ function ListEvento() {
           <TableContainer component={Paper} style={{ margin: "2px" }}>
             <Table size="small">
               <TableHead
-                style={{ backgroundColor: "#c4006f", borderStyle: "solid" }}
+                style={{ backgroundColor: "#ddc3d1", borderStyle: "solid" }}
               >
                 <TableRow>
                   <TableCell align="center">Nome</TableCell>
@@ -157,7 +157,7 @@ function ListEvento() {
             fullWidth
             variant="contained"
             onClick={logout}
-            sx={{ backgroundColor: "#c4006f" }}
+            sx={{ backgroundColor: "#d8c5cf" }}
           >
             SAIR
           </Button>

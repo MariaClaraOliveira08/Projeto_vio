@@ -6,7 +6,7 @@ import IconButton  from "@mui/material/IconButton";
 
 const Header = () => {
     return(
-        <AppBar sx={{backgroundColor:'#860062'}}>
+        <AppBar sx={{backgroundColor:'#d1afc2'}}>
             <Toolbar>
                 <IconButton>
                     <AccountCircleIcon />

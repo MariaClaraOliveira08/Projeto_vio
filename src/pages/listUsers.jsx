@@ -66,11 +66,11 @@ function listUsers() {
       await api.deleteUser(userToDelete.id);
       await getUsers();
       showAlert("success", "Usuário excluído com sucesso!");
-      setModalOpen(false)
+      setModalOpen(false);
     } catch (error) {
       console.log("Erro ao deletar usuário...", error);
       showAlert("error", error.response.data.error);
-      setModalOpen(false)
+      setModalOpen(false);
     }
   }
 
@@ -135,7 +135,7 @@ function listUsers() {
           <TableContainer component={Paper} style={{ margin: "2px" }}>
             <Table size="small">
               <TableHead
-                style={{ backgroundColor: "#962c5d", borderStyle: "solid" }}
+                style={{ backgroundColor: "#ddc3d1", borderStyle: "solid" }}
               >
                 <TableRow>
                   <TableCell align="center">Nome</TableCell>
@@ -151,16 +151,22 @@ function listUsers() {
             fullWidth
             variant="contained"
             onClick={logout}
-            sx={{ backgroundColor: "#962c5d" }}
+            sx={{ backgroundColor: "#d8c5cf" }}
           >
             SAIR
           </Button>
           <Button
             fullWidth
-            variant="contained"
-            sx={{ backgroundColor: "#962c5d" }}
+            variant="outlined"
+            component={Link}
+            to="/eventos"
+            sx={{
+              marginBottom: "10px",
+              borderColor: "purple",
+              color: "#d8c5cf",
+            }}
           >
-            <Link to="/eventos">EVENTOS</Link>
+            Ver Eventos
           </Button>
         </div>
       )}
