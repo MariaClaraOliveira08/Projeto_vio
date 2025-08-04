@@ -23,8 +23,20 @@ const sheets = {
   postLogin: (user) => api.post("/login", user),
   deleteUser: (id) => api.delete("user/" + id),
   deleteEvento: (id) => api.delete("evento/" + id),
-  getEvento: () => api.get("/evento"),
-  createIngresso: (dados) => api.post("/ingresso", dados),
+  getEvento: () => api.get("/events"),
+  
+  createEvento: (form,imagem) => {
+    const data = new FormData();
+    for (let key in form) data.append(key, form[key]);
+    if(imagem) data.append("imagem", imagem);
+
+    return api.post("/evento",data,{
+      headers:{
+        "Content-Type":"multpart/form-data",
+        Accept:"application/json",
+      }
+    })
+  }
 };
 
 export default sheets;
