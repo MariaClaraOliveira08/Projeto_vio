@@ -40,7 +40,7 @@ export default function ModalCriarIngresso({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Criar ingresso para: {eventoSelecionado.nome}</DialogTitle>
+      {/* <DialogTitle>Criar ingresso para: {eventoSelecionado.nome}</DialogTitle> */}
       <DialogContent>
         <TextField
           label="Tipo"
