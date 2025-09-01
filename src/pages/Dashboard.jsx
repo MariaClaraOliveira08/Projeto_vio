@@ -1,33 +1,51 @@
 import { useEffect, useState } from "react";
 import { Bar, Pie } from "react-chartjs-2";
-import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from "chart.js";
 import sheets from "../axios/axios";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from "chart.js";
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  LinearScale
+);
 
 function Dashboard() {
   const [eventos, setEventos] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
+    async function getDados() {
       try {
-        const resEventos = await sheets.getEventos();
-        const resUsuarios = await sheets.getUsers();
-        setEventos(resEventos.data);
-        setUsuarios(resUsuarios.data);
-      } catch (err) {
-        console.error(err);
+        const responseEventos = await sheets.getEvento();
+        const responseUsuarios = await sheets.getUsers();
+        setEventos(responseEventos.data.events);
+        setUsuarios(responseUsuarios.data.users);
+      } catch (error) {
+        console.error(error);
       }
     }
-    fetchData();
+    getDados();
   }, []);
 
-  // Dados para gráfico de eventos por organizador
+  // processa dados fora do useEffect
   const eventosPorOrganizador = {};
-  eventos.forEach(e => {
-    const orgId = e.fk_id_organizador;
-    eventosPorOrganizador[orgId] = (eventosPorOrganizador[orgId] || 0) + 1;
+  eventos.forEach((evento) => {
+    const orgId = evento.fk_id_organizador;
+    eventosPorOrganizador[orgId] =
+      (eventosPorOrganizador[orgId] || 0) + 1;
   });
 
   const barData = {
@@ -36,12 +54,12 @@ function Dashboard() {
       {
         label: "Eventos por Organizador",
         data: Object.values(eventosPorOrganizador),
-        backgroundColor: "rgba(75,192,192,0.6)"
-      }
-    ]
+        backgroundColor: "rgba(204, 161, 183, 0.8)",
+      },
+    ],
   };
 
-  // Dados para gráfico de usuários por mês de nascimento
+  // Processar os dados para o grafico Pizza de aniversario dos usuarios
   const usuariosPorMes = {};
   usuarios.forEach(u => {
     const mes = new Date(u.data_nascimento).getMonth() + 1;
@@ -53,14 +71,13 @@ function Dashboard() {
     datasets: [
       {
         data: Object.values(usuariosPorMes),
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4CAF50", "#FF9800", "#9C27B0"]
+        backgroundColor: ["#ff7eaeff", "#36A2EB", "#FFCE56", "#4CAF50", "#FF9800", "#9C27B0"]
       }
     ]
   };
-
   return (
     <div style={{ padding: 20 }}>
-      <h2>📊 Dashboard</h2>
+      <h2> Dashboards </h2>
       <div style={{ width: "600px", marginBottom: 40 }}>
         <Bar data={barData} />
       </div>
