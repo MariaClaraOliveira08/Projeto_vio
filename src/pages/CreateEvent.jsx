@@ -23,12 +23,37 @@ function CreateEvent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!form.nome || !form.descricao || !form.data_hora || !form.local) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
     try {
-      await sheets.createEvento(form, imagem);
+      // Criar FormData para envio de arquivo + dados
+      const data = new FormData();
+      data.append("nome", form.nome);
+      data.append("descricao", form.descricao);
+      data.append("data_hora", form.data_hora);
+      data.append("local", form.local);
+      data.append("fk_id_organizador", form.fk_id_organizador);
+      if (imagem) data.append("imagem", imagem);
+
+      await sheets.createEvento(data); // ajustar sua função axios para aceitar FormData
       alert("Evento criado com sucesso!");
+
+      // Limpar formulário
+      setForm({
+        nome: "",
+        descricao: "",
+        data_hora: "",
+        local: "",
+        fk_id_organizador: 1,
+      });
+      setImagem(null);
     } catch (err) {
       console.error(err);
-      alert("Erro ao criar evento");
+      alert("Erro ao criar evento: " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -39,6 +64,7 @@ function CreateEvent() {
           fullWidth
           name="nome"
           label="Nome"
+          value={form.nome}
           onChange={handleChange}
           sx={{ mb: 2 }}
         />
@@ -46,6 +72,7 @@ function CreateEvent() {
           fullWidth
           name="descricao"
           label="Descrição"
+          value={form.descricao}
           onChange={handleChange}
           sx={{ mb: 2 }}
         />
@@ -53,13 +80,17 @@ function CreateEvent() {
           fullWidth
           name="data_hora"
           label="Data e hora"
+          type="datetime-local"
+          value={form.data_hora}
           onChange={handleChange}
           sx={{ mb: 2 }}
+          InputLabelProps={{ shrink: true }}
         />
         <TextField
           fullWidth
           name="local"
           label="Local"
+          value={form.local}
           onChange={handleChange}
           sx={{ mb: 2 }}
         />
